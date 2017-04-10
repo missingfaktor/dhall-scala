@@ -10,3 +10,5 @@ libraryDependencies ++= Seq(
 scalacOptions ++= Seq(
   "-language:higherKinds"
 )
+
+addSbtPlugin("com.geirsson" % "sbt-scalafmt" % "0.6.3")
