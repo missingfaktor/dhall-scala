@@ -1,6 +1,6 @@
 package dhall
 
-import dhall.Expr.{Embed, Lam, Let, ListLit, Quant, Union, UnionLit}
+import dhall.Expression.{Embed, Lambda, Let, ListLit, Pi, Union, UnionLit}
 import org.specs2.matcher.Matchers
 import org.specs2.mutable.Specification
 
@@ -84,7 +84,7 @@ class DhallParserSpec extends Specification with Matchers {
         val expression = s"\\($label : $envAExpression) -> $listLitExpression"
 
         DhallParser.parse(expression).get must
-          equalTo(Lam(label, Embed(Env("pathA")), ListLit(None, Seq(Embed(Env("pathB")), Embed(Env("pathC"))))))
+          equalTo(Lambda(label, Embed(Env("pathA")), ListLit(None, Seq(Embed(Env("pathB")), Embed(Env("pathC"))))))
       }
 
       "with λ prefix" in {
@@ -99,7 +99,7 @@ class DhallParserSpec extends Specification with Matchers {
         val expression = s"λ($label : $envAExpression) -> $listLitExpression"
 
         DhallParser.parse(expression).get must
-          equalTo(Lam(label, Embed(Env("pathA")), ListLit(None, Seq(Embed(Env("pathB")), Embed(Env("pathC"))))))
+          equalTo(Lambda(label, Embed(Env("pathA")), ListLit(None, Seq(Embed(Env("pathB")), Embed(Env("pathC"))))))
       }
     }
 
@@ -116,7 +116,7 @@ class DhallParserSpec extends Specification with Matchers {
         val expression = s"forall($label:$envAExpression) -> $listLitExpression"
 
         DhallParser.parse(expression).get must
-          equalTo(Quant(label, Embed(Env("pathA")), ListLit(None, Seq(Embed(Env("pathB")), Embed(Env("pathC"))))))
+          equalTo(Pi(label, Embed(Env("pathA")), ListLit(None, Seq(Embed(Env("pathB")), Embed(Env("pathC"))))))
       }
 
       "with ∀ prefix" in {
@@ -131,7 +131,7 @@ class DhallParserSpec extends Specification with Matchers {
         val expression = s"∀($label:$envAExpression) -> $listLitExpression"
 
         DhallParser.parse(expression).get must
-          equalTo(Quant(label, Embed(Env("pathA")), ListLit(None, Seq(Embed(Env("pathB")), Embed(Env("pathC"))))))
+          equalTo(Pi(label, Embed(Env("pathA")), ListLit(None, Seq(Embed(Env("pathB")), Embed(Env("pathC"))))))
       }
     }
 
